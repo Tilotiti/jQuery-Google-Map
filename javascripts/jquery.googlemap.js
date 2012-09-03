@@ -47,7 +47,7 @@ $(function() {
     $.fn.addMarker = function(params) {
 		params = $.extend( {
 			coords  : false,
-			adress  : false,
+			address : false,
 			url     : false,
 			id      : false,
 			icon    : false,
