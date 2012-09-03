@@ -47,7 +47,7 @@ $(function() {
     $.fn.addMarker = function(params) {
 		params = $.extend( {
 			coords  : false,
-			adress  : false,
+			address : false,
 			url     : false,
 			id      : false,
 			icon    : false,
@@ -68,11 +68,11 @@ $(function() {
 	        	return false;
         	}
         	        	
-        	if(params.adress && typeof params.adress == "string") {
+        	if(params.address && typeof params.address == "string") {
 	        	geocoder = new google.maps.Geocoder();
 	        	
 			    geocoder.geocode({
-			    	address  : params.adress,
+			    	address  : params.address,
 			    	bounds   : $this.data('googleBound'),
 			    	language : 'french'
 			    }, function(results, status) {
