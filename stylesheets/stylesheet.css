@@ -102,6 +102,7 @@ h6 {
 
 p {
   margin: 10px 0 15px 0;
+  text-align: justify;
 }
 
 footer p {
@@ -146,7 +147,6 @@ strong {
 img {
   position: relative;
   margin: 0 auto;
-  max-width: 739px;
   padding: 5px;
   margin: 10px 0 10px 0;
   border: 1px solid #ebebeb;
@@ -259,7 +259,6 @@ form {
 
 img {
   width: 100%;
-  max-width: 100%;
 }
 
 /*******************************************************************************
@@ -374,6 +373,10 @@ Full-Width Styles
   background: #212121;
 }
 
+#way td {
+	border: none;
+	padding: 0px;
+}
 
 
 /*******************************************************************************

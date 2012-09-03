@@ -9,6 +9,9 @@
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
     <title>Jquery Google Map</title>
+    <script src="javascripts/jquery.js"></script>
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBxziNVZQN_IvuFlaymIUZ6L1KDMtCWHbg&sensor=false"></script>
+	<script type="text/javascript" src="javascripts/jquery.googlemap.js"></script>
   </head>
 
   <body>
@@ -37,74 +40,249 @@
         <h3>Installation</h3>
         <p>Pour l'installation du plugin, vous devez faire appel à jQuery, google Api et le fichier contenant le plugin :</p>
        
-        <pre><code>
-          <script src="javascripts/jquery.js"></script>
-          <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBxziNVZQN_IvuFlaymIUZ6L1KDMtCWHbg&sensor=false"></script>
-          <script type="text/javascript" src="javascripts/jquery.googlemap.js"></script>
-        </code></pre>
+        <pre><code>&lt;script src="javascripts/jquery.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&sensor=false"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="javascripts/jquery.googlemap.js"&gt;&lt;/script&gt;</code></pre>
         <p>Il vous faudra alors créer votre clef API directement sur le site de google dans la <a href="https://code.google.com/apis/console/" title="Console API Google">console API</a>.</p>
         
         <h3>Utilisation</h3>
         <h4>Créer une carte</h4>
         <p>Sur votre fichier HTML, créez le conteneur de votre carte. N'oubliez pas de lui préciser une largeur et une hauteur fixe (en CSS ou en dur)</p>
-        <pre><code>
-          <div id="map" style="width: 300px; height: 300px;"></div>
-        </code></pre>
+        <p>Vous n'avez plus qu'à appeler utiliser la méthode googleMap(). Vous pouvez lui indiquer les coordonnées de départ ainsi que le zoom initial. Si vous ne le faites pas, la carte sera automatiquement centrée sur Levallois-Perret (oui, c'est là où je travaille).</p>
+        <pre><code>&lt;div id="map" style="width: 300px; height: 300px;"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+  $(function() {
+    $("#map").googleMap({
+	  zoom: 10, // Zoom initial (optionnel)
+	  coords: [48.895651, 2.290569], // Centre de la carte (optionnel)
+	  type: "ROADMAP" // Type de la carte (optionnel)
+	});
+  })
+&lt;/script&gt;</code></pre>
         
-        <p>Vous n'avez plus qu'à appeler utiliser la methode googleMap(). Vous pouvez lui indiquer les coordonnées de départ ainsi que le zoom initial. Si vous ne le faites pas, la carte sera automatiquement centrée sur Levallois-Perret (oui, c'est là où je travaille).</p>
-        <pre><code>
-          <script type="text/javascript">
-            $("#map").googleMap({
-              zoom: 10, // Zoom initial (optionnel)
-              coords: [48.895651, 2.290569], // Centre de la carte (optionnel)
-              type: "ROADMAP" // Type de la carte (optionnel)
-            });
-          </script>
-        </code></pre>
-        
-        <p><b>Rendu :</b></p>
-        
-        <div id="map1" style="width: 300px; height: 300px; margin: auto;"></div>
         <script type="text/javascript">
-            $("#map1").googleMap({
-              zoom: 10, // Zoom initial (optionnel)
-              coords: [48.895651, 2.290569], // Centre de la carte (optionnel)
-              type: "ROADMAP" // Type de la carte (optionnel)
-            });
-        </script>
-        
+    		$(function() {
+    			$("#map1").googleMap({
+    				zoom: 10, // Zoom initial (optionnel)
+    				coords: [48.895651, 2.290569], // Centre de la carte (optionnel)
+    				type: "ROADMAP" // Type de la carte (optionnel)
+    			});
+    		})
+	    </script>
+        <div id="map1" style="width:300px; height:300px; margin: auto; margin-top: 20px;"></div>
+                
         <p>Il existe 4 types de cartes disponibles chez google :</p>
         <ul>
           <li><b>ROADMAP</b> : La carte par défaut, qui affiche les rues, les villes, etc.</li>
           <li><b>SATELLITE</b> : Affichage de la vue satellite de google.</li>
-          <li><b>HYBRID</b> : Affichage de la vue satellite avec, en superposition, le nom des villes, les villes, etc ...</li>
+          <li><b>HYBRID</b> : Affichage de la vue satellite avec, en superposition, le nom des villes, les rue, etc ...</li>
           <li><b>TERRAIN</b> : Cette carte n'est pas disponible pour toutes les zones géorgraphique mais représente le relief de la région.</li>
         </ul>
         
         <h4>Ajouter un point</h4>
         <p>Une fois votre carte créée, vous pouvez lui ajouter des points (appelées des markers) et leur assigner plusieurs actions.</p>
+        <h5>Créer un point avec un lien</h5>
+        <pre><code>&lt;div id="map" style="width: 300px; height: 300px;"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+  $(function() {
+    $("#map").googleMap();
+    $("#map").addMarker({
+      coords: [48.895651, 2.290569], // Coordonnées GPS du point
+      url: 'http://www.tiloweb.com' // Lien de redirection du point (optionnel)
+    });
+  })
+&lt;/script&gt;</code></pre>
+
+		<script type="text/javascript">
+    		$(function() {
+    			$("#map2").googleMap();
+    			$("#map2").addMarker({
+			      coords: [48.895651, 2.290569], // Coordonnées GPS du point
+				  url: 'http://www.tiloweb.com' // Lien de redirection du point (optionnel)
+			    });
+    		})
+	    </script>
+        <div id="map2" style="width:300px; height:300px; margin: auto; margin-top: 20px;"></div>
+        <h5>Créer un point avec une fenêtre de texte</h5>
+        <p>Vous pouvez créer un point en lui attribuant un titre et un contenu HTML qui s'affichera au clique sur celui-ci.</p>
+        <pre><code>&lt;div id="map" style="width: 300px; height: 300px;"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+  $(function() {
+    $("#map").googleMap();
+    $("#map").addMarker({
+      coords: [48.895651, 2.290569], // Coordonnées GPS du point
+      title: 'Point n°1', // Titre du point
+      text:  'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' // Contenu du point
+    });
+  })
+&lt;/script&gt;</code></pre>
+
+		<script type="text/javascript">
+    		$(function() {
+    			$("#map3").googleMap();
+    			$("#map3").addMarker({
+			      coords: [48.895651, 2.290569], // Coordonnées GPS du point
+			      title: 'Point n°1', // Lien de redirection du point (optionnel)
+			      text:  'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+			    });
+    		})
+	    </script>
+        <div id="map3" style="width:300px; height:300px; margin: auto; margin-top: 20px;"></div>
+        
+        <h5>Créer un point avec une icône personnalisée</h5>
+        <p>Vous pouvez créer un point en remplaçant l'icône par défaut par une icône personnalisée en renseignant simplement son URL.</p>
+        <pre><code>&lt;div id="map" style="width: 300px; height: 300px;"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+  $(function() {
+    $("#map").googleMap();
+    $("#map").addMarker({
+      coords: [48.895651, 2.290569], // Coordonnées GPS du point
+      icon: 'http://www.tiloweb.com/logo.png', // URL de l'icone
+    });
+  })
+&lt;/script&gt;</code></pre>
+
+		<script type="text/javascript">
+    		$(function() {
+    			$("#map4").googleMap();
+    			$("#map4").addMarker({
+			      coords: [48.895651, 2.290569], // Coordonnées GPS du point
+			      icon: 'http://www.tiloweb.com/logo.png', // Lien de l'icône (optionnel)
+			      url: 'http://www.tiloweb.com'
+			    });
+    		})
+	    </script>
+        <div id="map4" style="width:300px; height:300px; margin: auto; margin-top: 20px;"></div>
+        
+        <h5>Créer plusieurs points</h5>
+		<p>Vous pouvez ajouter autant de point à votre carte que nécessaire. La carte se centrera automatiquement pour afficher tous les points.</p>
+        <pre><code>&lt;div id="map" style="width: 300px; height: 300px;"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+  $(function() {
+    $("#map").googleMap();
+    // Bureau Digital Dealer
+    $("#map").addMarker({
+    	 coords: [48.895651, 2.290569]
+	});
+	// Champs Elysées
+	$("#map").addMarker({
+    	 coords: [48.869439, 2.308664]
+	});
+	// Dodo
+	$("#map").addMarker({
+    	 coords: [48.888846, 2.198674]
+	});
+  })
+&lt;/script&gt;</code></pre>
+
+		<script type="text/javascript">
+    		$(function() {
+    			$("#map5").googleMap();
+			    // Bureau Digital Dealer
+			    $("#map5").addMarker({
+			    	 coords: [48.895651, 2.290569]
+				});
+				// Champs Elysées
+				$("#map5").addMarker({
+			    	 coords: [48.869439, 2.308664]
+				});
+				// Dodo
+				$("#map5").addMarker({
+			    	 coords: [48.888846, 2.198674]
+				});
+    		})
+	    </script>
+        <div id="map5" style="width:300px; height:300px; margin: auto; margin-top: 20px;"></div>
+
+	    
+		<h5>Créer un point depuis une adresse postale</h5>
+		<p>Vous pouvez ajouter un point en renseignant uniquement son adresse. Attention, l'API de Google Map limite le nombre d'utilisation du géocoder (l'API qui permet de transformer une adresse postale en coordonnées GPS). Il est vivement conseillé d'utiliser ce géocoder que ponctuellement (pour une interaction avec un de vos visiteurs par exemple) et non pas de manière systématique.</p>
+        <pre><code>&lt;div id="map" style="width: 300px; height: 300px;"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+  $(function() {
+    $("#map").googleMap();
+    $("#map").addMarker({
+    	adress: "15 avenue des champs Elysées 75008 Paris", // Adresse postale
+		url: 'http://www.tiloweb.com' // Lien du point
+	});
+  })
+&lt;/script&gt;</code></pre>
+
+		<script type="text/javascript">
+    		$(function() {
+    			$("#map6").googleMap();
+    			$("#map6").addMarker({
+			      adress: "15 avenue des champs Elysées 75008 Paris", // Adresse postale
+			      url: 'http://www.tiloweb.com'
+			    });
+    		})
+	    </script>
+        <div id="map6" style="width:300px; height:300px; margin: auto; margin-top: 20px;"></div>
+        
+                
+        <h3>Créer un itinéraire</h3>
+        <p>Google vous propose de créer un itinéraire entre une adresse de départ et une adresse d'arrivée (ou une coordonnées GPS d'arrivée). Nous pouvons ainsi afficher l'itinéraire sur la carte et le détail dans un bloc de notre choix :</p>
+        
+        <pre><code>&lt;div id="map" style="width: 300px; height: 300px;"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+  $(function() {
+    $("#map").googleMap();
+    $("#map").addWay({
+    	start: "15 avenue des champs Elysées 75008 Paris", // Adresse postale du départ (obligatoire)
+		end:  [48.895651, 2.290569], // Coordonnées GPS ou adresse postale d'arrivée (obligatoire)
+		route : 'way', // ID du bloc dans lequel injecter le détail de l'itinéraire (optionnel)
+		langage : 'french' // Langue du détail de l'itinéraire (optionnel, en anglais)
+	});
+  })
+&lt;/script&gt;</code></pre>
+
+		<script type="text/javascript">
+    		$(function() {
+    			$("#map7").googleMap();
+    			$("#map7").addWay({
+			      start: "15 avenue des champs Elysées 75008 Paris", // Adresse postale du départ (obligatoire)
+			      end:  [48.895651, 2.290569], // Coordonnées GPS ou adresse postale d'arrivée (obligatoire)
+			      route : 'way', // ID du bloc dans lequel injecter le détail de l'itinéraire (optionnel)
+			      langage : 'french' // Langue du détail de l'itinéraire (optionnel, en anglais)
+			    });
+    		})
+	    </script>
+        <div id="map7" style="width:300px; height:300px; margin: auto; margin-top: 20px;"></div>
+        <div id="way"></div>
+        
+        <p>Vous pouvez alors interagir directement avec la carte pour créer votre itinéraire idéal.</p>
+        
+        <h3>Remettre à 0 une carte</h3>
+        <p>Après manipulation de la carte, vous pouvez très facilement remettre à 0 celle-ci en la ré-initialisant :</p>
+        <pre><code>&lt;div id="map" style="width: 300px; height: 300px;"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+  $(function() {
+    $("#map").googleMap();
+  })
+&lt;/script&gt;</code></pre>
+	
+	
+		<h3>Support</h3>
+		<p>Ce plugin a été réalisé par Thibault HENRY pour TiloWeb. Pour toute question, merci de les poser en commentaire sur cet article : <a href="http://www.tiloweb.com" title="Tiloweb : [jQuery] Plugin Google Map : Créez votre Google Map complète">[jQuery] Plugin Google Map : Créez votre Google Map complète.</a></p>
       </section>
     </div>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Jquery-google-map maintained by <a href="https://github.com/Tilotiti">Tilotiti</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+        <p class="copyright">Jquery Google Map est maintenue <a href="http://www.tiloweb.com">Tilotiti</a></p>
       </footer>
     </div>
 
-              <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-26369977-2");
+    <script type="text/javascript">
+    	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+    	try {
+        	var pageTracker = _gat._getTracker("UA-26369977-2");
             pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
-
-
+        } catch(err) {}
+    </script>
   </body>
 </html>
