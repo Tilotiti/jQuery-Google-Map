@@ -9,6 +9,15 @@
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
     <title>Jquery-google-map</title>
+    
+    <script type="text/javascript" src="http://www.google.fr/jsapi"></script>
+    <script type="text/javascript">
+      google.load("jquery", "1.7.2");
+      google.load("maps", "3", {
+      other_params: "sensor=false"
+    });
+    <script type="text/javascript" src="https://raw.github.com/Tilotiti/jQuery-Google-Map/master/jquery.googlemap.js"></script>
+</script>
   </head>
 
   <body>
@@ -16,14 +25,14 @@
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
-          <a id="forkme_banner" href="https://github.com/Tilotiti/jQuery-Google-Map">View on GitHub</a>
+          <a id="forkme_banner" href="https://github.com/Tilotiti/jQuery-Google-Map">Voir sur GitHub</a>
 
           <h1 id="project_title">Jquery-google-map</h1>
-          <h2 id="project_tagline">Plugin jQuery : Create your own complet Google Map</h2>
+          <h2 id="project_tagline">Plugin jQuery : Créez votre propre Google Map complète</h2>
 
             <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/Tilotiti/jQuery-Google-Map/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/Tilotiti/jQuery-Google-Map/tarball/master">Download this project as a tar.gz file</a>
+              <a class="zip_download_link" href="https://github.com/Tilotiti/jQuery-Google-Map/zipball/master">Téléchargez le .zip</a>
+              <a class="tar_download_link" href="https://github.com/Tilotiti/jQuery-Google-Map/tarball/master">Téléchargez le tar.gz</a>
             </section>
         </header>
     </div>
@@ -31,32 +40,69 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>Welcome to GitHub Pages.</h3>
-
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+        <h3>Présentation</h3>
+        <p>jQuery Google Map est un plugin jQuery vous permettant de manipuler l'API Google Map sans aucune difficulté. Vous avez ainsi la possibilité de créer des cartes, d'y intégrer des points et de créer des itinéraires.</p>
+        
+        <h3>Installation</h3>
+        <p>Pour installer jQuery Google Map, plusieurs propositions s'offrent à vous :</p>
+        
+        <h4>Utilisation du CDN Google</h4>
+        <pre><code>
+          <script type="text/javascript" src="http://www.google.fr/jsapi"></script>
+          <script type="text/javascript">
+            google.load("jquery", "1.7.2");
+            google.load("maps", "3", { other_params: "sensor=false" });
+          </script>
+          <script type="text/javascript" src="/jquery.googlemap.js"></script>
+        </code></pre>
+        
+        <h4>Appel simple de l'API</h4>
+        <pre><code>
+          <script type="text/javascript" src="/jquery.js"></script>
+          <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&sensor=false">
+          <script type="text/javascript" src="/jquery.googlemap.js"></script>
+        </code></pre>
+        <p>Il vous faudra alors créer votre clef API directement sur le site de google dans la <a href="https://code.google.com/apis/console/" title="Console API Google"></a></a>console API</a>.</p>
+        
+        <h3>Utilisation</h3>
+        <h4>Créer une carte</h4>
+        <p>Sur votre fichier HTML, créez le conteneur de votre carte. N'oubliez pas de lui préciser une largeur et une hauteur fixe (en CSS ou en dur)</p>
+        <pre><code>
+          <div id="map" style="width: 300px; height: 300px;"></div>
+        </code></pre>
+        
+        <p>Vous n'avez plus qu'à appeler utiliser la methode googleMap(). Vous pouvez lui indiquer les coordonnées de départ ainsi que le zoom initial. Si vous ne le faites pas, la carte sera automatiquement centrée sur Levallois-Perret (oui, c'est là où je travaille).</p>
+        <pre><code>
+          <script type="text/javascript">
+            $("#map").googleMap({
+              zoom: 10, // Zoom initial (optionnel)
+              coords: [48.895651, 2.290569], // Centre de la carte (optionnel)
+              type: "ROADMAP" // Type de la carte (optionnel)
+            });
+          </script>
+        </code></pre>
+        
+        <p><b>Rendu :</b></p>
+        
+        <div id="map1" style="width: 300px; height: 300px; margin: auto;"></div>
+        <script type="text/javascript">
+            $("#map1").googleMap({
+              zoom: 10, // Zoom initial (optionnel)
+              coords: [48.895651, 2.290569], // Centre de la carte (optionnel)
+              type: "ROADMAP" // Type de la carte (optionnel)
+            });
+        </script>
+        
+        <p>Il existe 4 types de cartes disponibles chez google :</p>
+        <ul>
+          <li><b>ROADMAP</b> : La carte par défaut, qui affiche les rues, les villes, etc.</li>
+          <li><b>SATELLITE</b> : Affichage de la vue satellite de google.</li>
+          <li><b>HYBRID</b> : Affichage de la vue satellite avec, en superposition, le nom des villes, les villes, etc ...</li>
+          <li><b>TERRAIN</b> : Cette carte n'est pas disponible pour toutes les zones géorgraphique mais représente le relief de la région.</li>
+        </ul>
+        
+        <h4>Ajouter un point</h4>
+        <p>Une fois votre carte créée, vous pouvez lui ajouter des points (appelées des markers) et leur assigner plusieurs actions.</p>
       </section>
     </div>
 
