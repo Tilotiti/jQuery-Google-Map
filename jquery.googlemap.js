@@ -52,7 +52,8 @@ $(function() {
 			id      : false,
 			icon    : false,
 			title   : "",
-			text    : ""
+			text    : "",
+			success : function() {}
 		}, params);
 		
 		this.each(function() {
@@ -63,7 +64,7 @@ $(function() {
 	        	return false;
         	}
         	
-        	if(!params.coords && !params.adress) {
+        	if(!params.coords && !params.address) {
 	        	console.log("jQuery googleMap : Unable to add a marker if you don't tell us where !");
 	        	return false;
         	}
@@ -123,6 +124,11 @@ $(function() {
 			            } else {
 				        	$this.data('googleMap').fitBounds($this.data('googleBound'));
 			            }
+			            			            
+			            params.success({
+				            lat: results[0].geometry.location.Xa,
+				            lon: results[0].geometry.location.Ya
+			            });
 			
 			        } else {
 			            console.log("jQuery googleMap : Unable to find the place asked for the marker ("+status+")");
@@ -176,6 +182,11 @@ $(function() {
 	            } else {
 		        	$this.data('googleMap').fitBounds($this.data('googleBound'));
 	            }
+	            
+	            params.success({
+		            lat: params.coords[0],
+		            lon: params.coords[1]
+	            });
         	}
         });
         
@@ -224,7 +235,7 @@ $(function() {
 			            if (status == google.maps.DirectionsStatus.OK) {
 			                way.setDirections(response);
 			            } else {
-			                alert("Aucune adresse ou itinÃ©raire n'a Ã©tÃ© trouvÃ©.");
+			                alert("Address not found");
 			            }
 			        });
 		
@@ -244,7 +255,7 @@ $(function() {
 	            if (status == google.maps.DirectionsStatus.OK) {
 	                way.setDirections(response);
 	            } else {
-	                alert("Aucune adresse ou itinÃ©raire n'a Ã©tÃ© trouvÃ©.");
+	                alert("Address not found");
 	            }
 	        });
 		}
