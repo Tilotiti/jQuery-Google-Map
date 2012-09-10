@@ -53,10 +53,10 @@
 &lt;script type="text/javascript"&gt;
   $(function() {
     $("#map").googleMap({
-	  zoom: 10, // Zoom initial (optionnel)
-	  coords: [48.895651, 2.290569], // Centre de la carte (optionnel)
-	  type: "ROADMAP" // Type de la carte (optionnel)
-	});
+      zoom: 10, // Zoom initial (optionnel)
+      coords: [48.895651, 2.290569], // Centre de la carte (optionnel)
+      type: "ROADMAP" // Type de la carte (optionnel)
+    });
   })
 &lt;/script&gt;</code></pre>
         
@@ -163,15 +163,17 @@
     // Bureau Digital Dealer
     $("#map").addMarker({
     	 coords: [48.895651, 2.290569]
-	});
-	// Champs Elysées
-	$("#map").addMarker({
+    });
+    
+    // Champs Elysées
+    $("#map").addMarker({
     	 coords: [48.869439, 2.308664]
-	});
-	// Dodo
-	$("#map").addMarker({
-    	 coords: [48.888846, 2.198674]
-	});
+    });
+	
+    // Dodo
+    $("#map").addMarker({
+        coords: [48.888846, 2.198674]
+    });
   })
 &lt;/script&gt;</code></pre>
 
@@ -203,8 +205,8 @@
     $("#map").googleMap();
     $("#map").addMarker({
     	address: "15 avenue des champs Elysées 75008 Paris", // Adresse postale
-		url: 'http://www.tiloweb.com' // Lien du point
-	});
+    	url: 'http://www.tiloweb.com' // Lien du point
+    });
   })
 &lt;/script&gt;</code></pre>
 
@@ -251,6 +253,23 @@
         <div id="way"></div>
         
         <p>Vous pouvez alors interagir directement avec la carte pour créer votre itinéraire idéal.</p>
+        
+        <h3>Utiliser le callback</h3>
+        <p>Lorsque vous cherchez à placer un point sur une adresse grâce à la méthode addMarker(), vous pouvez créer un callback pour récupérer les coordonnées GPS afin de les enregistrer :</p>
+        
+        <pre><code>&lt;div id="map" style="width: 300px; height: 300px;"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+  $(function() {
+    $("#map").googleMap();
+    $("#map").addMarker({
+    	address: "15 avenue des champs Elysées 75008 Paris", // Adresse postale du départ (obligatoire)
+    	success: function(e) {
+    	    $("#latitude").val(e.lat);
+    	    $("#longitude").val(e.lon);
+    	}
+	});
+  })
+&lt;/script&gt;</code></pre>
         
         <h3>Remettre à 0 une carte</h3>
         <p>Après manipulation de la carte, vous pouvez très facilement remettre à 0 celle-ci en la ré-initialisant :</p>
