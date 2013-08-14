@@ -193,6 +193,29 @@ $(function() {
         return this;
 	}
 	
+	$.fn.removeMarker = function(id) {
+		this.each(function() {
+			$this = $(this);
+			
+        	if(!$(this).data('googleMap')) {
+	        	console.log("jQuery googleMap : Unable to delete a marker where there is no map !");
+	        	return false;
+        	}
+        	
+        	$markers = $(this).data('googleMarker');
+        	
+        	console.log($markers);
+        	
+        	if(typeof $markers[id] != 'undefined') {
+        		$markers[id].setMap(null);
+	        	console.log('jQuery googleMap : marker deleted');
+        	} else {
+	        	console.log("jQuery googleMap : Unable to delete a marker if it not exists !");
+	        	return false;
+        	}
+		});
+	}
+	
 	/*
 	 * GÃ©nÃ©rer un itinÃ©raire
 	 */
