@@ -95,7 +95,8 @@
     $("#map").googleMap();
     $("#map").addMarker({
       coords: [48.895651, 2.290569], // GPS coords
-      url: 'http://www.tiloweb.com' // Link to redirect onclick (optional)
+      url: 'http://www.tiloweb.com', // Link to redirect onclick (optional)
+      id: 'marker1' // Unique ID for your marker
     });
   })
 &lt;/script&gt;</code></pre>
@@ -274,6 +275,21 @@
     	    $("#longitude").val(e.lon);
     	}
 	});
+  })
+&lt;/script&gt;</code></pre>
+
+		<h3>Remove a marker</h3>
+        <p>If you have set an ID for your marker, you will be able to remove this marker.</p>
+        <pre><code>&lt;div id="map" style="width: 300px; height: 300px;"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+  $(function() {
+  	$("#map").googleMap();
+  	$("#map").addMarker({
+      coords: [48.895651, 2.290569], // GPS coords
+      url: 'http://www.tiloweb.com', // Link to redirect onclick (optional)
+      id: 'marker1' // Unique ID for your marker
+    });
+    $("#map").removeMarker("marker1");
   })
 &lt;/script&gt;</code></pre>
         
