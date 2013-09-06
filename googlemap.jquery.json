@@ -13,7 +13,7 @@
 			"url": "https://raw.github.com/Tilotiti/jQuery-Google-Map/master/LICENSE.md"
 		}
 	],
-	"description": "A jQuery Plugin allows you to easely manipulate the Google Map API. You are now able to create maps, add some markers et create routes.",
+	"description": "A jQuery Plugin allows you to easely manipulate the Google Map API. You are now able to create maps, add some markers and create routes.",
 	"homepage": "http://tilotiti.github.com/jQuery-Google-Map/",
 	"docs": "http://tilotiti.github.com/jQuery-Google-Map/",
 	"demo": "http://tilotiti.github.com/jQuery-Google-Map/",
