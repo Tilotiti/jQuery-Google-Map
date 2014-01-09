@@ -254,13 +254,50 @@
     			$("#map7").addWay({
 			      start: "15 avenue des champs Elysées 75008 Paris", // Adresse postale du départ (obligatoire)
 			      end:  [48.895651, 2.290569], // Coordonnées GPS ou adresse postale d'arrivée (obligatoire)
-			      route : 'way', // ID du bloc dans lequel injecter le détail de l'itinéraire (optionnel)
+			      route : 'way1', // ID du bloc dans lequel injecter le détail de l'itinéraire (optionnel)
 			      langage : 'english' // Langue du détail de l'itinéraire (optionnel, en anglais)
 			    });
     		})
 	    </script>
         <div id="map7" style="width:300px; height:300px; margin: auto; margin-top: 20px;"></div>
-        <div id="way"></div>
+        <div id="way1"></div>
+        
+        <h3>Add a route with some steps</h3>
+        <p>You can add some steps to your route</p>
+        <pre><code>&lt;div id="map" style="width: 300px; height: 300px;"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+  $(function() {
+    $("#map").googleMap();
+    $("#map").addWay({
+    	start: "15 avenue des champs Elysées 75008 Paris", // Postal address for the start marker (obligatory)
+		end:  [48.895651, 2.290569], // Postal Address or GPS coordinates for the end marker (obligatory)
+		route : 'way', // Block's ID for the route display (optional)
+		langage : 'english', // language of the route detail (optional)
+		step: [ // Array of steps (optional)
+			"1 Rue du Faubourg Saint-Honoré, 75008 Paris", // Step address
+			[48.85837009999999, 2.2944813000000295] // Step location
+		]
+	});
+  })
+&lt;/script&gt;</code></pre>
+
+		<script type="text/javascript">
+    		$(function() {
+    			$("#map8").googleMap();
+    			$("#map8").addWay({
+			      start: "15 avenue des champs Elysées 75008 Paris", // Adresse postale du départ (obligatoire)
+			      end:  [48.895651, 2.290569], // Coordonnées GPS ou adresse postale d'arrivée (obligatoire)
+			      route : 'way2', // ID du bloc dans lequel injecter le détail de l'itinéraire (optionnel)
+			      langage : 'english', // Langue du détail de l'itinéraire (optionnel, en anglais)
+			      step: [ // Array of steps (optional)
+					"1 Rue du Faubourg Saint-Honoré, 75008 Paris", // Step address
+					[48.85837009999999, 2.2944813000000295] // Step location
+			      ]
+			    });
+    		})
+	    </script>
+        <div id="map8" style="width:300px; height:300px; margin: auto; margin-top: 20px;"></div>
+        <div id="way2"></div>
                 
         <h3>Add a callback</h3>
         <p>When you start to place a marker on the map, you can have a callback with the GPS coordinates of the calculated marker in order to save it.</p>
