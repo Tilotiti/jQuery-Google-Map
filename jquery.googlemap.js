@@ -7,10 +7,11 @@ $(function() {
 		params = $.extend( {
 			zoom: 10,
 			coords: [48.895651, 2.290569],
-			type: "ROADMAP"
+			type: "ROADMAP",
+			debug: false
 		}, params);
 		
-		// VÃ©rification du type de la carte
+		// Vérification du type de la carte
 		switch(params.type) {
 			case 'ROADMAP':
 			case 'SATELLITE':
@@ -34,6 +35,7 @@ $(function() {
 			});
 			
 			$(this).data('googleMap',    map);
+			$(this).data('googleDebug',  params.debug);
 			$(this).data('googleMarker', new Array());
 			$(this).data('googleBound',  new google.maps.LatLngBounds());
 		});
@@ -60,12 +62,12 @@ $(function() {
 			$this = $(this);
 			
         	if(!$(this).data('googleMap')) {
-	        	console.log("jQuery googleMap : Unable to add a marker where there is no map !");
+	        	console.error("jQuery googleMap : Unable to add a marker where there is no map !");
 	        	return false;
         	}
         	
         	if(!params.coords && !params.address) {
-	        	console.log("jQuery googleMap : Unable to add a marker if you don't tell us where !");
+        		if($(this).data('googleDebug')) console.error("jQuery googleMap : Unable to add a marker if you don't tell us where !");
 	        	return false;
         	}
         	        	
@@ -131,13 +133,12 @@ $(function() {
 			            });
 			
 			        } else {
-			            console.log("jQuery googleMap : Unable to find the place asked for the marker ("+status+")");
+			            if($(this).data('googleDebug')) console.error("jQuery googleMap : Unable to find the place asked for the marker ("+status+")");
 			        }
 			    });
         	} else {
         	
         		$this.data('googleBound').extend(new google.maps.LatLng(params.coords[0], params.coords[1]));
-        		
         		
         		if(params.icon) {
 	        		var marker = new google.maps.Marker({
@@ -153,7 +154,6 @@ $(function() {
 		                title: params.title
 		            });
         		}
-	        	
 	            
 	            if(params.title != "" && params.text != "" && !params.url) {
 		            var infowindow = new google.maps.InfoWindow({
@@ -208,21 +208,22 @@ $(function() {
         	
         	if(typeof $markers[id] != 'undefined') {
         		$markers[id].setMap(null);
-	        	console.log('jQuery googleMap : marker deleted');
+	        	if($(this).data('googleDebug')) console.log('jQuery googleMap : marker deleted');
         	} else {
-	        	console.log("jQuery googleMap : Unable to delete a marker if it not exists !");
+	        	if($(this).data('googleDebug')) console.error("jQuery googleMap : Unable to delete a marker if it not exists !");
 	        	return false;
         	}
 		});
 	}
 	
 	/*
-	 * GÃ©nÃ©rer un itinÃ©raire
+	 * Générer un itinéraire
 	 */
 	$.fn.addWay = function(params) {
 		params = $.extend( {
 			start   : false,
 			end     : false,
+			step    : [],
 			route   : false,
 			langage : 'french'
 		}, params);
@@ -237,7 +238,24 @@ $(function() {
             panel:     document.getElementById(params.route),
             provideTripAlternatives: true
         });
-		
+        
+        // waypoints
+        var waypoints = [];
+        
+        for(var i in params.step) {
+        	var step;
+	        if(typeof params.step[i] == "object") {
+		        step = new google.maps.LatLng(params.step[i][0], params.step[i][1]);
+	        } else {
+		        step = params.step[i];
+	        }
+	        
+	        waypoints.push({
+	        	location: step,
+	        	stopover: true
+	        });
+        }
+        		
 		if(typeof params.end != "object") {
 			geocoder = new google.maps.Geocoder();
 		    geocoder.geocode({
@@ -251,7 +269,8 @@ $(function() {
 			            origin: params.start,
 			            destination: results[0].geometry.location,
 			            travelMode: google.maps.DirectionsTravelMode.DRIVING,
-			            region: "fr"
+			            region: "fr",
+			            waypoints: waypoints
 			        };
 			
 			        direction.route(request, function(response, status) {
@@ -263,7 +282,7 @@ $(function() {
 			        });
 		
 		        } else {
-		            console.log("jQuery googleMap : Unable to find the place asked for the route ("+status+")");
+		            if($(this).data('googleDebug')) console.error("jQuery googleMap : Unable to find the place asked for the route ("+status+")");
 		        }
 		    });
 		} else {
@@ -271,7 +290,8 @@ $(function() {
 	            origin: params.start,
 	            destination: new google.maps.LatLng(params.end[0], params.end[1]),
 	            travelMode: google.maps.DirectionsTravelMode.DRIVING,
-	            region: "fr"
+	            region: "fr",
+			    waypoints: waypoints
 	        };
 	
 	        direction.route(request, function(response, status) {
