@@ -122,7 +122,7 @@ $(function() {
 			            
 			            if($this.data('googleMarker').length == 1) {
 				            $this.data('googleMap').setCenter(results[0].geometry.location);
-				            $this.data('googleMap').setZoom(9);
+				            $this.data('googleMap').setZoom($this.data('googleMap').getZoom());
 			            } else {
 				        	$this.data('googleMap').fitBounds($this.data('googleBound'));
 			            }
@@ -178,7 +178,7 @@ $(function() {
 
 	            if($this.data('googleMarker').length == 1) {
 		            $this.data('googleMap').setCenter(new google.maps.LatLng(params.coords[0], params.coords[1]));
-		            $this.data('googleMap').setZoom(9);
+		            $this.data('googleMap').setZoom($this.data('googleMap').getZoom());
 	            } else {
 		        	$this.data('googleMap').fitBounds($this.data('googleBound'));
 	            }
