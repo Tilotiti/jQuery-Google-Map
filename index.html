@@ -316,6 +316,24 @@
   })
 &lt;/script&gt;</code></pre>
 
+<h3>Make a marker draggable</h3>
+        <p>When you want to be abble to move your marker with your mouse, you can add the "draggable" param to it. The success function will be call every time your user finish dragging the marker.</p>
+        
+        <pre><code>&lt;div id="map" style="width: 300px; height: 300px;"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+  $(function() {
+    $("#map").googleMap();
+    $("#map").addMarker({
+    	address: "15 avenue des champs Elysées 75008 Paris", // Postal address
+    	draggable: true,
+    	success: function(e) {
+    	    $("#latitude").val(e.lat);
+    	    $("#longitude").val(e.lon);
+    	}
+	});
+  })
+&lt;/script&gt;</code></pre>
+
 		<h3>Remove a marker</h3>
         <p>If you have set an ID for your marker, you will be able to remove this marker.</p>
         <pre><code>&lt;div id="map" style="width: 300px; height: 300px;"&gt;&lt;/div&gt;
