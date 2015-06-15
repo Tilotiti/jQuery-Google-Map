@@ -8,7 +8,7 @@ $(function() {
 			debug : false,
 			langage : "english"
 		}, params);
-		
+
 		switch(params.type) {
 			case 'ROADMAP':
 			case 'SATELLITE':
@@ -20,22 +20,27 @@ $(function() {
 				params.type = google.maps.MapTypeId.ROADMAP;
 				break;
 		}
-		
+
 		this.each(function() {
-						
+
 			var map = new google.maps.Map(this, {
 				zoom: params.zoom,
 				center: new google.maps.LatLng(params.coords[0], params.coords[1]),
-				mapTypeId: params.type
+				mapTypeId: params.type,
+				scrollwheel: false,
+				streetViewControl: false,
+				overviewMapControl: false,
+				mapTypeControl: false,
+				draggable: false
 			});
-			
+
 			$(this).data('googleMap', map);
 			$(this).data('googleLang', params.langage);
 			$(this).data('googleDebug', params.debug);
 			$(this).data('googleMarker', new Array());
 			$(this).data('googleBound', new google.maps.LatLngBounds());
 		});
-	
+
 		return this;
 	}
 
@@ -51,25 +56,25 @@ $(function() {
 			text : "",
 			success : function() {}
 		}, params);
-		
+
 		this.each(function() {
 			$this = $(this);
-			
+
 			if(!$this.data('googleMap')) {
 				if($this.data('googleDebug'))
 					console.error("jQuery googleMap : Unable to add a marker where there is no map !");
 				return false;
 			}
-        	
+
 			if(!params.coords && !params.address) {
 				if($this.data('googleDebug'))
 					console.error("jQuery googleMap : Unable to add a marker if you don't tell us where !");
 				return false;
 			}
-        	        	
+
 			if(params.address && typeof params.address == "string") {
 				geocoder = new google.maps.Geocoder();
-	        	
+
 				geocoder.geocode({
 					address : params.address,
 					bounds : $this.data('googleBound'),
@@ -77,7 +82,7 @@ $(function() {
 			  }, function(results, status) {
 					if (status == google.maps.GeocoderStatus.OK) {
 						$this.data('googleBound').extend(results[0].geometry.location);
-			            
+
 						if(params.icon) {
 							var marker = new google.maps.Marker({
 								map: $this.data('googleMap'),
@@ -94,32 +99,27 @@ $(function() {
 								draggable: params.draggable
 							});
 						}
-						
+
 						if(params.draggable) {
 							google.maps.event.addListener(marker, 'dragend', function() {
 								var location = marker.getPosition();
-								
+
 								var coords = {};
-								
-								if(typeof location.d != "undefined") {
-									coords.lat = location.d;
-									coords.lon = location.e;
-								} else {
-									if($this.data('googleDebug'))
-										console.error("jQuery googleMap : Wrong google response", location);
-								}
-								
+
+								coords.lat = location.lat();
+								coords.lon = location.lng();
+
 								params.success(coords);
 							});
 						}
-			            
+
 						if(params.title != "" && params.text != "" && !params.url) {
 							var infowindow = new google.maps.InfoWindow({
 								content: "<h1>"+params.title+"</h1>"+params.text
 							});
-					        
+
 							var map = $this.data('googleMap');
-							
+
 							google.maps.event.addListener(marker, 'click', function() {
 								infowindow.open(map, marker);
 							});
@@ -128,32 +128,26 @@ $(function() {
 								document.location = params.url;
 							});
 						}
-			            
+
 						if(!params.id) {
 							$this.data('googleMarker').push(marker);
 						} else {
 							$this.data('googleMarker')[params.id] = marker;
 						}
-			            
+
 						if($this.data('googleMarker').length == 1) {
 							$this.data('googleMap').setCenter(results[0].geometry.location);
 							$this.data('googleMap').setZoom($this.data('googleMap').getZoom());
 						} else {
 							$this.data('googleMap').fitBounds($this.data('googleBound'));
 						}
-			            
+
 						var coords = {};
-			            
-						if(typeof results[0].geometry.location.d != "undefined") {
-							coords.lat = results[0].geometry.location.d;
-							coords.lon = results[0].geometry.location.e;
-						} else {
-							if($this.data('googleDebug'))
-								console.error("jQuery googleMap : Wrong google response", results[0].geometry.location);
-						}
-			            			              
+						coords.lat = results[0].geometry.location.lat();
+						coords.lon = results[0].geometry.location.lng();
+
 						params.success(coords);
-			
+
 					} else {
 						if($this.data('googleDebug'))
 							console.error("jQuery googleMap : Unable to find the place asked for the marker ("+status+")");
@@ -161,7 +155,7 @@ $(function() {
 				});
 			} else {
 				$this.data('googleBound').extend(new google.maps.LatLng(params.coords[0], params.coords[1]));
-        
+
         if(params.icon) {
 					var marker = new google.maps.Marker({
 						map: $this.data('googleMap'),
@@ -176,14 +170,14 @@ $(function() {
 						title: params.title
 					});
 				}
-	            
+
         if(params.title != "" && params.text != "" && !params.url) {
           var infowindow = new google.maps.InfoWindow({
 						content: "<h1>"+params.title+"</h1>"+params.text
 					});
-			        
+
 					var map = $this.data('googleMap');
-			  
+
 	        google.maps.event.addListener(marker, 'click', function() {
 		        infowindow.open(map, marker);
 	        });
@@ -192,7 +186,7 @@ $(function() {
               document.location = params.url;
           });
 				}
-	            
+
         if(!params.id) {
        		$this.data('googleMarker').push(marker);
         } else {
@@ -205,29 +199,29 @@ $(function() {
 				} else {
 					$this.data('googleMap').fitBounds($this.data('googleBound'));
 				}
-	            
+
 				params.success({
 					lat: params.coords[0],
 					lon: params.coords[1]
 				});
 			}
 		});
-        
+
 		return this;
 	}
-	
+
 	$.fn.removeMarker = function(id) {
 		this.each(function() {
 			var $this = $(this);
-			
+
     	if(!$this.data('googleMap')) {
     		if($this.data('googleDebug'))
       		console.log("jQuery googleMap : Unable to delete a marker where there is no map !");
       	return false;
     	}
-    	
+
     	var $markers = $this.data('googleMarker');
-    	        	
+
     	if(typeof $markers[id] != 'undefined') {
     		$markers[id].setMap(null);
       	if($this.data('googleDebug'))
@@ -248,20 +242,20 @@ $(function() {
 			route : false,
 			langage : 'english'
 		}, params);
-		
+
 		var direction = new google.maps.DirectionsService({
 			region: "fr"
 		});
-        
+
 		var way = new google.maps.DirectionsRenderer({
 			draggable: true,
 			map: $(this).data('googleMap'),
 			panel: document.getElementById(params.route),
 			provideTripAlternatives: true
 		});
-        
+
 		var waypoints = [];
-        
+
     for(var i in params.step) {
     	var step;
       if(typeof params.step[i] == "object") {
@@ -269,23 +263,23 @@ $(function() {
       } else {
         step = params.step[i];
       }
-      
+
       waypoints.push({
       	location: step,
       	stopover: true
       });
     }
-        		
+
 		if(typeof params.end != "object") {
 			var geocoder = new google.maps.Geocoder();
-			
+
 	    geocoder.geocode({
 	    	address  : params.end,
 	    	bounds   : $(this).data('googleBound'),
 	    	language : params.langage
 	    }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-        
+
         	var request = {
             origin: params.start,
             destination: results[0].geometry.location,
@@ -293,7 +287,7 @@ $(function() {
             region: "fr",
             waypoints: waypoints
 	        };
-	
+
 	        direction.route(request, function(response, status) {
             if (status == google.maps.DirectionsStatus.OK) {
               way.setDirections(response);
@@ -316,7 +310,7 @@ $(function() {
 				region: "fr",
 				waypoints: waypoints
 			};
-	
+
 			direction.route(request, function(response, status) {
 				if (status == google.maps.DirectionsStatus.OK) {
 					way.setDirections(response);
@@ -326,7 +320,7 @@ $(function() {
 				}
 			});
 		}
-		
+
 		return this;
 	}
 });
