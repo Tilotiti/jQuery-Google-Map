@@ -30,8 +30,7 @@ $(function() {
 				scrollwheel: false,
 				streetViewControl: false,
 				overviewMapControl: false,
-				mapTypeControl: false,
-				draggable: false
+				mapTypeControl: false
 			});
 
 			$(this).data('googleMap', map);
