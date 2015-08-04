@@ -1,7 +1,7 @@
 {
 	"name": "googlemap",
 	"title": "Google Map",
-	"version": "1.4.2",
+	"version": "1.4.3",
 	"author": {
     	"name": "Thibault HENRY",
 		"email": "thibaulthenry@tilotiti.com",
@@ -18,16 +18,7 @@
 	"docs": "http://tilotiti.github.com/jQuery-Google-Map/",
 	"demo": "http://tilotiti.github.com/jQuery-Google-Map/",
 	"download": "https://github.com/tilotiti/jQuery-Google-Map/archive/master.zip",
-	"keywords": [
-    	"grid",
-		"datagrid",
-		"table",
-		"ui",
-		"input",
-		"ajax",
-		"handsontable",
-		"spreadsheet"
-	],
+	"keywords": ["map", "googlemap", "google", "geocode", "route"],
 	"bugs": "http://tilotiti.github.com/jQuery-Google-Map/",
 	"dependencies": {
 		"jquery": ">=1.7"
