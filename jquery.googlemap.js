@@ -27,9 +27,7 @@ $(function() {
 				zoom: params.zoom,
 				center: new google.maps.LatLng(params.coords[0], params.coords[1]),
 				mapTypeId: params.type,
-				scrollwheel: false,
 				streetViewControl: false,
-				overviewMapControl: false,
 				mapTypeControl: false
 			});
 
@@ -165,13 +163,15 @@ $(function() {
 						map: $this.data('googleMap'),
 						position: new google.maps.LatLng(params.coords[0], params.coords[1]),
 						title: params.title,
-						icon: params.icon
+						icon: params.icon,
+						draggable: params.draggable
 					});
 				} else {
 					var marker = new google.maps.Marker({
 						map: $this.data('googleMap'),
 						position: new google.maps.LatLng(params.coords[0], params.coords[1]),
-						title: params.title
+						title: params.title,
+						draggable: params.draggable
 					});
 				}
 
@@ -189,6 +189,19 @@ $(function() {
           google.maps.event.addListener(marker, 'click', function() {
               document.location = params.url;
           });
+				}
+
+				if(params.draggable) {
+					google.maps.event.addListener(marker, 'dragend', function() {
+						var location = marker.getPosition();
+
+						var coords = {};
+
+						coords.lat = location.lat();
+						coords.lon = location.lng();
+
+						params.success(coords);
+					});
 				}
 
         if(!params.id) {
