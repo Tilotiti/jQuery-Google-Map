@@ -62,12 +62,14 @@ $(function() {
 			if(!$this.data('googleMap')) {
 				if($this.data('googleDebug'))
 					console.error("jQuery googleMap : Unable to add a marker where there is no map !");
+					
 				return false;
 			}
 
 			if(!params.coords && !params.address) {
 				if($this.data('googleDebug'))
 					console.error("jQuery googleMap : Unable to add a marker if you don't tell us where !");
+					
 				return false;
 			}
 
@@ -81,7 +83,7 @@ $(function() {
 						address : params.address,
 						bounds : $that.data('googleBound'),
 						language : $that.data('googleLang')
-				  }, function(results, status) {
+					}, function(results, status) {
 
 						if (status == google.maps.GeocoderStatus.OK) {
 							$that.data('googleBound').extend(results[0].geometry.location);
@@ -160,7 +162,7 @@ $(function() {
 			} else {
 				$this.data('googleBound').extend(new google.maps.LatLng(params.coords[0], params.coords[1]));
 
-        if(params.icon) {
+        			if(params.icon) {
 					var marker = new google.maps.Marker({
 						map: $this.data('googleMap'),
 						position: new google.maps.LatLng(params.coords[0], params.coords[1]),
@@ -177,20 +179,20 @@ $(function() {
 					});
 				}
 
-        if(params.title != "" && params.text != "" && !params.url) {
-          var infowindow = new google.maps.InfoWindow({
+        			if(params.title != "" && params.text != "" && !params.url) {
+          				var infowindow = new google.maps.InfoWindow({
 						content: "<h1>"+params.title+"</h1>"+params.text
 					});
 
 					var map = $this.data('googleMap');
 
-	        google.maps.event.addListener(marker, 'click', function() {
-		        infowindow.open(map, marker);
-	        });
+	        			google.maps.event.addListener(marker, 'click', function() {
+		        			infowindow.open(map, marker);
+	        			});
 				} else if(params.url) {
-          google.maps.event.addListener(marker, 'click', function() {
-              document.location = params.url;
-          });
+          				google.maps.event.addListener(marker, 'click', function() {
+              					document.location = params.url;
+        				});
 				}
 
 				if(params.draggable) {
@@ -206,15 +208,15 @@ $(function() {
 					});
 				}
 
-        if(!params.id) {
-       		$this.data('googleMarker').push(marker);
-        } else {
-          $this.data('googleMarker')[params.id] = marker;
-        }
+				if(!params.id) {
+       					$this.data('googleMarker').push(marker);
+        			} else {
+        				$this.data('googleMarker')[params.id] = marker;
+        			}
 
 				if($this.data('googleMarker').length == 1) {
-				  $this.data('googleMap').setCenter(new google.maps.LatLng(params.coords[0], params.coords[1]));
-				  $this.data('googleMap').setZoom($this.data('googleMap').getZoom());
+					$this.data('googleMap').setCenter(new google.maps.LatLng(params.coords[0], params.coords[1]));
+					$this.data('googleMap').setZoom($this.data('googleMap').getZoom());
 				} else {
 					$this.data('googleMap').fitBounds($this.data('googleBound'));
 				}
@@ -233,23 +235,28 @@ $(function() {
 		this.each(function() {
 			var $this = $(this);
 
-    	if(!$this.data('googleMap')) {
-    		if($this.data('googleDebug'))
-      		console.log("jQuery googleMap : Unable to delete a marker where there is no map !");
-      	return false;
-    	}
+    			if(!$this.data('googleMap')) {
+    				if($this.data('googleDebug'))
+      					console.log("jQuery googleMap : Unable to delete a marker where there is no map !");
+      					
+      				return false;
+    			}
 
-    	var $markers = $this.data('googleMarker');
+    			var $markers = $this.data('googleMarker');
 
-    	if(typeof $markers[id] != 'undefined') {
-    		$markers[id].setMap(null);
-      	if($this.data('googleDebug'))
-      		console.log('jQuery googleMap : marker deleted');
-    	} else {
-      	if($this.data('googleDebug'))
-      		console.error("jQuery googleMap : Unable to delete a marker if it not exists !");
-      	return false;
-    	}
+    			if(typeof $markers[id] != 'undefined') {
+    				$markers[id].setMap(null);
+    				
+      				if($this.data('googleDebug'))
+      					console.log('jQuery googleMap : marker deleted');
+      					
+      				return true;
+    			} else {
+      				if($this.data('googleDebug'))
+      					console.error("jQuery googleMap : Unable to delete a marker if it not exists !");
+      		
+      				return false;
+    			}
 		});
 	}
 
@@ -272,57 +279,58 @@ $(function() {
 			panel: document.getElementById(params.route),
 			provideTripAlternatives: true
 		});
+		
+		document.getElementById.innerHTML = "";
 
 		var waypoints = [];
 
-    for(var i in params.step) {
-    	var step;
-      if(typeof params.step[i] == "object") {
-        step = new google.maps.LatLng(params.step[i][0], params.step[i][1]);
-      } else {
-        step = params.step[i];
-      }
+    		for(var i in params.step) {
+    			var step;
+      			if(typeof params.step[i] == "object") {
+        			step = new google.maps.LatLng(params.step[i][0], params.step[i][1]);
+      			} else {
+        			step = params.step[i];
+      			}
 
-      waypoints.push({
-      	location: step,
-      	stopover: true
-      });
-    }
+      			waypoints.push({
+      				location: step,
+      				stopover: true
+      			});
+		}
 
 		if(typeof params.end != "object") {
 			var geocodeAsync = function($that) {
 				var geocoder = new google.maps.Geocoder();
 
-		    geocoder.geocode({
-		    	address  : params.end,
-		    	bounds   : $that.data('googleBound'),
-		    	language : params.langage
-		    }, function(results, status) {
-	        if (status == google.maps.GeocoderStatus.OK) {
+		    		geocoder.geocode({
+		    			address  : params.end,
+		    			bounds   : $that.data('googleBound'),
+		    			language : params.langage
+		    		}, function(results, status) {
+	        			if (status == google.maps.GeocoderStatus.OK) {
+	        				var request = {
+	            					origin: params.start,
+	            					destination: results[0].geometry.location,
+	            					travelMode: google.maps.DirectionsTravelMode.DRIVING,
+	            					region: "fr",
+	            					waypoints: waypoints
+		        			};
 
-	        	var request = {
-	            origin: params.start,
-	            destination: results[0].geometry.location,
-	            travelMode: google.maps.DirectionsTravelMode.DRIVING,
-	            region: "fr",
-	            waypoints: waypoints
-		        };
+		        			direction.route(request, function(response, status) {
+	            					if (status == google.maps.DirectionsStatus.OK) {
+	              						way.setDirections(response);
+	            					} else {
+	              						if($that.data('googleDebug'))
+	            							console.error("jQuery googleMap : Unable to find the place asked for the route ("+response+")");
+	            					}
+		        			});
 
-		        direction.route(request, function(response, status) {
-	            if (status == google.maps.DirectionsStatus.OK) {
-	              way.setDirections(response);
-	            } else {
-	              if($that.data('googleDebug'))
-	            		console.error("jQuery googleMap : Unable to find the place asked for the route ("+response+")");
-	            }
-		        });
-
-	        } else {
-	          if($that.data('googleDebug'))
-	          	console.error("jQuery googleMap : Address not found");
-	        }
-		    });
-	    }($(this));
+	        			} else {
+	          				if($that.data('googleDebug'))
+	          					console.error("jQuery googleMap : Address not found");
+	        			}
+		    		});
+	    		}($(this));
 		} else {
 			var request = {
 				origin: params.start,
@@ -337,7 +345,7 @@ $(function() {
 					way.setDirections(response);
 				} else {
 					if($(this).data('googleDebug'))
-          	console.error("jQuery googleMap : Address not found");
+          					console.error("jQuery googleMap : Address not found");
 				}
 			});
 		}
