@@ -30,6 +30,7 @@ $(function() {
 				mapTypeId: params.type,
 				streetViewControl: false,
 				mapTypeControl: false,
+				scrollwheel: params.scrollwheel
 			});
 
 			$(this).data('googleMap', map);
