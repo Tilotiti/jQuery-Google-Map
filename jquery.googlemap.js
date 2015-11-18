@@ -6,7 +6,8 @@ $(function() {
 			coords : [48.895651, 2.290569],
 			type : "ROADMAP",
 			debug : false,
-			langage : "english"
+			langage : "english",
+			scrollwheel: true
 		}, params);
 
 		switch(params.type) {
@@ -28,7 +29,7 @@ $(function() {
 				center: new google.maps.LatLng(params.coords[0], params.coords[1]),
 				mapTypeId: params.type,
 				streetViewControl: false,
-				mapTypeControl: false
+				mapTypeControl: false,
 			});
 
 			$(this).data('googleMap', map);
