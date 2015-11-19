@@ -114,7 +114,7 @@ $(function() {
 									coords.lat = location.lat();
 									coords.lon = location.lng();
 
-									params.success(coords);
+									params.success(coords, $this);
 								});
 							}
 
@@ -151,7 +151,7 @@ $(function() {
 							coords.lat = results[0].geometry.location.lat();
 							coords.lon = results[0].geometry.location.lng();
 
-							params.success(coords);
+							params.success(coords, $this);
 
 						} else {
 							if($this.data('googleDebug'))
@@ -204,7 +204,7 @@ $(function() {
 						coords.lat = location.lat();
 						coords.lon = location.lng();
 
-						params.success(coords);
+						params.success(coords, $this);
 					});
 				}
 
@@ -224,7 +224,7 @@ $(function() {
 				params.success({
 					lat: params.coords[0],
 					lon: params.coords[1]
-				});
+				}, $this);
 			}
 		});
 
