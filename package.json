@@ -1,11 +1,11 @@
 {
-	"name": "googlemap",
+	"name": "jquery-googlemap",
 	"title": "Google Map",
-	"version": "1.4.3",
+	"version": "1.5.0",
 	"author": {
-    	"name": "Thibault HENRY",
-		"email": "thibaulthenry@tilotiti.com",
-		"url": "http://www.tiloblog.com/"
+		"name": "Thibault HENRY",
+		"email": "thibault@henry.pro",
+		"url": "http://www.tiloweb.com/"
 	},
 	"licenses": [
     	{
@@ -15,10 +15,8 @@
 	],
 	"description": "A jQuery Plugin allows you to easely manipulate the Google Map API. You are now able to create maps, add some markers and create routes.",
 	"homepage": "http://tilotiti.github.com/jQuery-Google-Map/",
-	"docs": "http://tilotiti.github.com/jQuery-Google-Map/",
-	"demo": "http://tilotiti.github.com/jQuery-Google-Map/",
-	"download": "https://github.com/tilotiti/jQuery-Google-Map/archive/master.zip",
-	"keywords": ["map", "googlemap", "google", "geocode", "route"],
+	"repository": "https://github.com/Tilotiti/jQuery-Google-Map/",
+	"keywords": ["map", "googlemap", "google", "geocode", "route", "jquery-plugin", "ecosystem:jquery"],
 	"bugs": "http://tilotiti.github.com/jQuery-Google-Map/",
 	"dependencies": {
 		"jquery": ">=1.7"

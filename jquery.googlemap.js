@@ -6,7 +6,11 @@ $(function() {
 			coords : [48.895651, 2.290569],
 			type : "ROADMAP",
 			debug : false,
-			langage : "english"
+			langage : "english",
+			overviewMapControl: false,
+			streetViewControl: false,
+			scrollwheel: false,
+			mapTypeControl: false
 		}, params);
 
 		switch(params.type) {
@@ -27,10 +31,10 @@ $(function() {
 				zoom: params.zoom,
 				center: new google.maps.LatLng(params.coords[0], params.coords[1]),
 				mapTypeId: params.type,
-				scrollwheel: false,
-				streetViewControl: false,
-				overviewMapControl: false,
-				mapTypeControl: false
+				scrollwheel: params.scrollwheel,
+				streetViewControl: params.streetViewControl,
+				overviewMapControl: params.overviewMapControl,
+				mapTypeControl: params.mapTypeControl
 			});
 
 			$(this).data('googleMap', map);
