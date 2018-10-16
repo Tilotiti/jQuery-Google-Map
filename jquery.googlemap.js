@@ -155,6 +155,12 @@ $(function() {
 							var coords = {};
 							coords.lat = results[0].geometry.location.lat();
 							coords.lon = results[0].geometry.location.lng();
+																					
+							for(var i in results[0].address_components) {
+								if(results[0].address_components[i].types.indexOf("postal_code") > -1) {
+									coords.zipcode = results[0].address_components[i].long_name;
+								}
+							}
 
 							params.success(coords, $this);
 
