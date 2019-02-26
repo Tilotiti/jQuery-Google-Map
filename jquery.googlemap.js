@@ -129,9 +129,12 @@ $(function() {
 								});
 
 								var map = $that.data('googleMap');
-
+                                previous_infowindow = null;
 								google.maps.event.addListener(marker, 'click', function() {
+                                    if(previous_infowindow!==null)
+                                        previous_infowindow.close(map, marker);
 									infowindow.open(map, marker);
+                                    previous_infowindow=infowindow;
 								});
 							} else if(params.url) {
 								google.maps.event.addListener(marker, 'click', function() {
@@ -196,9 +199,12 @@ $(function() {
 					});
 
 					var map = $this.data('googleMap');
-
+                    previous_infowindow = null;
 	        			google.maps.event.addListener(marker, 'click', function() {
+                            if(previous_infowindow!==null)
+                                previous_infowindow.close(map, marker);
 		        			infowindow.open(map, marker);
+                            previous_infowindow=infowindow;
 	        			});
 				} else if(params.url) {
           				google.maps.event.addListener(marker, 'click', function() {
